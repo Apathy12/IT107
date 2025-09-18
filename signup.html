@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Sign Up | BMI Calculator</title>
+  <style>
+    body {
+      background: url("fitness bg.jpg") no-repeat center center/cover;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <nav class="w-full backdrop-blur-md bg-white/20 text-white shadow-md">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+      <h2 class="text-xl font-bold text-cyan-400">BMI Calculator</h2>
+      <div class="space-x-6">
+        <a href="login.html" class="hover:text-cyan-300">Login</a>
+        <a href="signup.html" class="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-lg font-semibold transition">
+          Sign Up
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex flex-1 items-center justify-center">
+    <div class="backdrop-blur-lg bg-white/20 p-8 rounded-2xl shadow-xl w-full max-w-sm text-white">
+      <h1 class="text-3xl font-bold mb-6 text-center text-cyan-400">Sign Up</h1>
+
+      <form id="signupForm" class="space-y-4">
+        <div>
+          <label for="newUsername" class="block text-sm font-semibold">Username:</label>
+          <input type="text" id="newUsername" placeholder="Choose a username" required
+            class="w-full mt-1 p-3 rounded-lg bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+        </div>
+
+        <div>
+          <label for="newPassword" class="block text-sm font-semibold">Password:</label>
+          <input type="password" id="newPassword" placeholder="Choose a password" required
+            class="w-full mt-1 p-3 rounded-lg bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+        </div>
+
+        <button type="submit"
+          class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 rounded-lg transition">
+          Sign Up
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      let newUser = document.getElementById("newUsername").value;
+      let newPass = document.getElementById("newPassword").value;
+
+      localStorage.setItem("username", newUser);
+      localStorage.setItem("password", newPass);
+
+      alert("✅ Account created! You can now log in.");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

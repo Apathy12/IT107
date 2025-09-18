@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Body Mass Index | BMI Calculator</title>
+  <style>
+    body {
+      background: url("fitness bg.jpg") no-repeat center center/cover;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+  <div class="backdrop-blur-lg bg-white/20 shadow-xl rounded-2xl p-8 w-full max-w-md text-white">
+    <h1 class="text-3xl font-bold mb-6 text-center text-cyan-400">BMI Calculator</h1>
+
+    <form id="bmiForm" class="space-y-4">
+      <div>
+        <label for="Height" class="block font-medium">Height in CM:</label>
+        <input type="text" id="Height" required
+          class="mt-1 block w-full rounded-lg p-3 bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+      </div>
+
+      <div>
+        <label for="Weight" class="block font-medium">Weight in KG:</label>
+        <input type="text" id="Weight" required
+          class="mt-1 block w-full rounded-lg p-3 bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+      </div>
+
+      <button type="submit"
+        class="w-full bg-cyan-500 text-white py-3 rounded-lg hover:bg-cyan-600 transition font-bold">
+        Calculate
+      </button>
+    </form>
+
+    <div id="result" class="mt-4 text-lg font-semibold text-center"></div>
+
+    <div class="mt-6">
+      <div id="history" class="text-sm"></div>
+      <button onclick="resetHistory()" 
+        class="w-full mt-3 bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition font-bold">
+        Reset History
+      </button>
+    </div>
+
+    <!-- BMI Guide -->
+    <div class="mt-6">
+      <h2 class="font-bold text-lg text-cyan-300">BMI Weight Guide</h2>
+      <ul class="list-disc pl-5 text-gray-200">
+        <li>Underweight = Less than 18.6</li>
+        <li>Normal Range = 18.6 and 24.9</li>
+        <li>Overweight = Greater than 24.9</li>
+      </ul>
+    </div>
+
+    <!-- Logout -->
+    <button onclick="logout()" 
+      class="w-full mt-6 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition font-bold">
+      Logout
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    if (localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+
+    function logout(){
+      localStorage.removeItem("loggedIn");
+      window.location.href = "login.html";
+    }
+
+    function resetHistory(){
+      localStorage.removeItem("bmiHistory");
+      document.getElementById("history").innerHTML = "<p class='text-gray-300'>History cleared.</p>";
+    }
+  </script>
+</body>
+</html>

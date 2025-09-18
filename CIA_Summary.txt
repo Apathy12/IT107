@@ -1,0 +1,47 @@
+Confidentiality (protecting information from unauthorized access)
+- Current behaviors
+  - Credentials stored in localStorage in plaintext (`signup.html` sets `username`, `password`; `login.html` reads them).
+  - Client-side login state via `localStorage.loggedIn` and redirect in `index.html`.
+  - Password inputs use type "password" for masking only (no encryption or hashing).
+- Gaps/Risks
+  - No encryption, hashing, or server-side auth; anyone with device/browser access can read or modify stored data.
+  - Client-only access control is bypassable by setting `localStorage.loggedIn = "true"`.
+  - Potential XSS risk in history rendering: `showHistory()` injects `localStorage.bmiHistory` via `innerHTML`; if an attacker poisons storage with HTML/JS, it could execute.
+  - No transport security enforcement (HTTPS) since there is no backend.
+
+Integrity (ensuring data is accurate, untampered)
+- Current behaviors
+  - Input validation checks for numeric/positive height and weight before computing BMI (`script.js`).
+  - BMI calculation is deterministic and displayed with `innerText` (safe rendering).
+  - History entries are saved with timestamp and BMI value to `localStorage`.
+- Gaps/Risks
+  - `localStorage` is fully mutable by the user; credentials, history, and login state can be altered via DevTools.
+  - `showHistory()` builds HTML with template strings and injects via `innerHTML`; tampered history can insert arbitrary markup.
+  - No integrity verification (e.g., hashes/signatures) on stored data; no server truth source.
+  - Login check in `index.html` is client-side only; easily manipulated, weakening trust of data/state.
+
+Availability (keeping the app usable when needed)
+- Current strengths
+  - Fully client-side; core features (BMI calc, history) work offline after first load.
+  - No backend dependency; minimal failure modes from server outages.
+  - Provides basic session controls: logout and history reset buttons.
+- Potential issues
+  - Tailwind CSS via CDN; if CDN is unreachable, UI styling degrades though core logic still runs.
+  - Relies on browser `localStorage`; quota limits or disabled storage will break persistence.
+  - Requires JavaScript enabled; without JS the app does not function.
+
+File/function mapping
+- `signup.html`: collects username/password and stores to `localStorage` (Confidentiality risk; Integrity risk).
+- `login.html`: reads credentials from `localStorage` and sets `loggedIn` flag (Confidentiality + Integrity risks; no server verification).
+- `index.html`: client-side guard redirects if not logged in; `logout()` clears `loggedIn`; `resetHistory()` clears `bmiHistory` (Integrity/Availability touchpoints).
+- `script.js`
+  - `bmiForm` submit handler: validates inputs, computes BMI (Integrity control: basic validation).
+  - `saveBMIResult(bmi)`: appends to `localStorage.bmiHistory` (Integrity risk: tamperable storage).
+  - `showHistory()`: renders history via `innerHTML` (Confidentiality/Integrity risk: XSS if storage is poisoned).
+
+High-level recommendations (for presentation)
+- Move auth to a backend; hash passwords (e.g., bcrypt) and use secure, HttpOnly session cookies.
+- Replace `innerHTML` rendering of history with safe DOM APIs, or sanitize content rigorously.
+- If offline persistence is required, sign/HMAC client-stored data and verify on read.
+- Enforce HTTPS and add a strong Content Security Policy (CSP) to reduce XSS risk.
+- Handle storage failures gracefully and consider IndexedDB for structured, larger storage with error handling.
