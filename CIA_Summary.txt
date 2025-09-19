@@ -1,4 +1,4 @@
-Confidentiality (protecting information from unauthorized access)
+--Confidentiality (protecting information from unauthorized access)
 Current behaviors
 BMI results and dates are stored in localStorage, encoded with btoa() (not plain text).
 Users can clear BMI history via the Reset button (clearHistory()).
@@ -9,7 +9,10 @@ localStorage is visible and editable via browser DevTools.
 showHistory() uses innerHTML; if an attacker poisons storage, they could inject malicious HTML/JS (XSS risk).
 No real authentication or transport security (since it’s client-only, no backend).
 
-Integrity (ensuring data is accurate, untampered)
+
+
+
+--Integrity (ensuring data is accurate, untampered)
 Current behaviors
 Input validation: only numeric, positive, and realistic ranges for height/weight are accepted.
 BMI calculation is deterministic and displayed via innerText (safe rendering).
@@ -20,7 +23,10 @@ localStorage can be directly modified by the user (e.g., fake BMI values).
 No verification (e.g., signatures or hashes) to detect tampered storage data.
 Login/session control (if used) is client-side only and can be bypassed.
 
-Availability (keeping the app usable when needed)
+
+
+
+--Availability (keeping the app usable when needed)
 Current strengths
 Fully client-side: BMI calculation and history work offline after first load.
 Reset button allows recovery if history becomes cluttered.
@@ -30,6 +36,7 @@ Potential issues
 Depends on localStorage; if disabled/cleared or quota is exceeded, persistence breaks.
 Requires JavaScript enabled; without JS, the app won’t function.
 UI styling (if using Tailwind via CDN) may fail if CDN is down, but core logic still runs.
+
 
 
 
