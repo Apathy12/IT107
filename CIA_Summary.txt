@@ -45,3 +45,4 @@ High-level recommendations (for presentation)
 - If offline persistence is required, sign/HMAC client-stored data and verify on read.
 - Enforce HTTPS and add a strong Content Security Policy (CSP) to reduce XSS risk.
 - Handle storage failures gracefully and consider IndexedDB for structured, larger storage with error handling.
+
